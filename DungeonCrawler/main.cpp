@@ -29,8 +29,6 @@ int main(int argc, char** argv)
 {      
     GameEngine game;
     
-    cout << "Hallo Welt 2!";
-    
     game.run();
     
     
