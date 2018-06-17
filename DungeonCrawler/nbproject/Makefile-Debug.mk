@@ -35,6 +35,14 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Active.o \
+	${OBJECTDIR}/Character.o \
+	${OBJECTDIR}/Controller.o \
+	${OBJECTDIR}/DungeonMap.o \
+	${OBJECTDIR}/GameEngine.o \
+	${OBJECTDIR}/Item.o \
+	${OBJECTDIR}/Passive.o \
+	${OBJECTDIR}/Tile.o \
 	${OBJECTDIR}/main.o
 
 
@@ -62,10 +70,50 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/dungeoncrawler: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/dungeoncrawler ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/Active.o: Active.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Active.o Active.cpp
+
+${OBJECTDIR}/Character.o: Character.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Character.o Character.cpp
+
+${OBJECTDIR}/Controller.o: Controller.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Controller.o Controller.cpp
+
+${OBJECTDIR}/DungeonMap.o: DungeonMap.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DungeonMap.o DungeonMap.cpp
+
+${OBJECTDIR}/GameEngine.o: GameEngine.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GameEngine.o GameEngine.cpp
+
+${OBJECTDIR}/Item.o: Item.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Item.o Item.cpp
+
+${OBJECTDIR}/Passive.o: Passive.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Passive.o Passive.cpp
+
+${OBJECTDIR}/Tile.o: Tile.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Tile.o Tile.cpp
+
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

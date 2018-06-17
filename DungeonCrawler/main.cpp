@@ -8,11 +8,17 @@
  * File:   main.cpp
  * Author: stud
  *
- * Created on 17. Juni 2018, 20:59
+ * Created on 25. April 2018, 09:25
  */
 
 #include <cstdlib>
 #include <iostream>
+#include <vector>
+#include <fstream>
+
+#include "Tile.h"
+#include "DungeonMap.h"
+#include "GameEngine.h"
 
 using namespace std;
 
@@ -20,9 +26,11 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv)
-{
-
-    cout << "Hello World 2!";
+{      
+    GameEngine game;
+    
+    game.run();
+    
     
     return 0;
 }

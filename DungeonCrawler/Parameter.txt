@@ -1,0 +1,27 @@
+Door 17 5 closed
+Door 17 8 closed
+Lever 18 6
+Door 11 4 open
+Door 5 6 open
+Door 2 14 closed
+Switch 6 6 off
+Switch 10 5 off
+Switch 2 10 off
+Portal 4 6 2 6
+Portal 2 6 4 6
+Club 1 17
+Mail_Armour 1 18
+Full_Plate_Armour 12 1
+Greatsword 12 2
+Shield 11 1
+ArmingSword 8 2
+Active 18 6 17 5
+Active 18 6 17 8
+Active 10 5 11 4
+Active 2 10 2 14
+Active 6 6 5 6
+Character 1 1 $ 5 5 ConsoleController
+Character 15 6 % 3 3 StationaryController
+Character 15 7 % 3 3 StationaryController
+Character 10 14 = 5 5 AttackController
+Character 17 18 = 5 5 AttackController
