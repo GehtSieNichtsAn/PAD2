@@ -28,7 +28,7 @@ using namespace std;
 int main(int argc, char** argv)
 {      
     GameEngine game;
-    cout << "Test";
+  
     game.run();
     
     
