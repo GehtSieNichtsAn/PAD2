@@ -293,34 +293,239 @@ int DungeonMap::getHeight() {
     return m_height;
 }
 
+void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
+    
+    Position self;
+    self = from;
+    int i = self.Spalte;
+    int j = self.Reihe;
+    
+    //Links und Rechts von Zelle
+    if(j-1 >= 0) {
+        if(m_field[i][j-1]->canEnter() == true) {                
+            
+            self.Reihe -= 1;
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "1: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    if(j+1 < m_width) {
+        if(m_field[i][j+1]->canEnter() == true) {
+            
+            self.Reihe += 1;
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "2: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    //Reihe unter der Zelle
+    if(i+1 < m_height) {
+        if(m_field[i+1][j]->canEnter() == true) {
+           
+            self.Spalte += 1;
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "3: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    if(i+1 < m_width && j-1 >= 0) {
+        if(m_field[i+1][j-1]->canEnter() == true) {
+            
+            self.Spalte += 1;
+            self.Reihe -= 1;                    
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "4: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    if(i+1 < m_width && j+1 < m_height) {
+        if(m_field[i+1][j+1]->canEnter() == true) {
+            
+            self.Spalte += 1;
+            self.Reihe += 1; 
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "5: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    //Reihe Ã¼ber der Zelle
+    if(i-1 >= 0) {
+        if(m_field[i-1][j]->canEnter() == true) {
+            
+            self.Spalte -= 1; 
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "6: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    if(i-1 >= 0 && j-1 >= 0) {
+        if(m_field[i-1][j-1]->canEnter() == true) {
+            
+            self.Spalte -= 1;
+            self.Reihe -= 1; 
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "7: " << nachbarn << endl;
+        }
+    }
+    self = from;
+    if(i-1 >= 0 && j+1 < m_height) {
+        if(m_field[i-1][j+1]->canEnter() == true) {
+            
+            self.Spalte -= 1;
+            self.Reihe += 1; 
+            DungeonMap::Kanten kante(self, from, false);
+            m_kantenvec.push_back(kante);
+            m_kanten.insert(kante);
+            //cout << "8: " << nachbarn << endl;
+        }
+    }
+    self = from;    
+}
+
+
 void DungeonMap::getPathTo(Position from, Position to) {
     //cout << to.Spalte << to.Reihe;
     
-    
-    
-    
-    
-    for(int i = 0; i < m_height; i++) {
-        for(int j = 0; j < m_width; j++) {             
-                m_pos.Spalte = i;
-                m_pos.Reihe = j; 
-                
-                if(find(m_pos)->getKachelsymbol() == '.' || find(m_pos)->getKachelsymbol() == '*' || find(m_pos)->getKachelsymbol() == '/') {                   
-                    m_positions.insert(m_pos);  
-                        
-                }
-                
-                       
-        }
-    }     
-   
-    for(Position el : m_positions) {
-       cout << el.Spalte << " " << el.Reihe << endl;
-        
-    }
 
     
+    getKanten(m_kanten, from);
+    for(int i = 0; i < 400; i++) {
+    for(Kanten el : m_kanten) {
+        if(el.m_visited == false) {
+            from = el.m_self;
+            getKanten(m_kanten, from);
+            el.m_visited = true;
+            
+        } 
+    }
+    }
+    
+    vector<string> test;
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    
    
+    for(Kanten el : m_kanten) {   
+        
+        cout << el.m_self.Spalte << " " << el.m_self.Reihe << endl;     
+        cout << el.m_source.Spalte << " " << el.m_source.Reihe << endl;
+        cout << endl;
+
+//        test[el.m_self.Spalte][el.m_self.Reihe] = '#';
+    }
+    
+    cout << m_kanten.size() << endl;
+    
+   
+    
+    Position postmp;
+    postmp.Spalte = 1;
+    postmp.Reihe = 2;
+    
+    for(int i = 0; i < 400; i++) {
+        for(auto el : m_kanten) {
+            if(el.m_self.Spalte == postmp.Spalte && el.m_self.Reihe == postmp.Reihe) {
+                m_path.push_back(el.m_source);
+                postmp.Spalte = el.m_source.Spalte;
+                postmp.Reihe = el.m_source.Reihe;
+
+
+            }
+        }
+    }
+    cout << m_path.size()  << endl;
+    
+    for(auto el : m_path) {
+        test[el.Spalte][el.Reihe] = '#';
+    }
+    
+    
+    for(auto el : test) {
+        cout << el << endl;
+    }
+    
+    
+    
+    
+//    int cnt = 0;
+    
+    
+//    for(int i = 0; i < m_height; i++) {
+//        for(int j = 0; j < m_width; j++) {             
+//                m_pos.Spalte = i;
+//                m_pos.Reihe = j; 
+//                
+//                if(find(m_pos)->getKachelsymbol() == '.' || find(m_pos)->getKachelsymbol() == '*' || find(m_pos)->getKachelsymbol() == '/') {                   
+//                //if(find(m_pos)->canEnter() == true) {    
+//                    m_positions.insert(m_pos);  
+//                    
+//                    //umliegende felder checken
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                    
+//                        
+//                }
+//                
+//                       
+//        }        
+//    }     
+//   
+//    for(Position el : m_positions) {
+//       cout << el.Spalte << " " << el.Reihe << endl;
+//        
+//    }
+//    
+////    for(Kanten el : m_kanten) {
+////       cout << el.m_knoten1.Spalte << " " << el.m_knoten1.Reihe << endl;
+////       cout << el.m_knoten2.Spalte << " " << el.m_knoten2.Reihe << endl;
+////       cout << endl;
+////    }
+//
+//    
+//    //cout << cnt;
     
     
     
@@ -344,3 +549,25 @@ bool operator<(const DungeonMap::Position& lhs, const DungeonMap::Position& rhs)
     return false;
     
 }
+
+bool operator<(const DungeonMap::Kanten& lhs, const DungeonMap::Kanten& rhs) {
+
+    if(lhs.m_self.Spalte < rhs.m_self.Spalte) {
+        return true;
+    } else if(lhs.m_self.Spalte == rhs.m_self.Spalte) {
+        if(lhs.m_self.Reihe < rhs.m_self.Reihe) {
+            return true;
+        }
+    }
+    return false;
+   // return (lhs.m_self.Reihe + lhs.m_self.Spalte) < (rhs.m_self.Reihe + rhs.m_self.Spalte);
+    
+}
+
+DungeonMap::Kanten::Kanten(DungeonMap::Position self, DungeonMap::Position source, bool visited) {
+    m_self = self;
+    m_source = source;
+    m_visited = visited;
+}
+
+

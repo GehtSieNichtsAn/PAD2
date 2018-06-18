@@ -32,10 +32,12 @@ public:
     };
     
     struct Kanten {
-        Position knoten1;
-	Position knoten2;
+        Position m_self;
+        Position m_source;
+        bool m_visited;
+        Kanten(Position m_self, Position m_source, bool m_visited);
     };
-    
+
     DungeonMap(int height, int width);
     DungeonMap(string spielfeldfile, string parameterfile);
     virtual ~DungeonMap();
@@ -50,6 +52,8 @@ public:
     int getWidth();
     int getHeight();
     
+    void getKanten(set<Kanten>& Kanten, Position from);
+    
     vector<Character*>& getCharacters();    
     void getPathTo(Position from, Position to);
     
@@ -61,12 +65,15 @@ private:
     Tile*** m_field;
     
     vector<Character*> m_spielfiguren;
+    vector<Kanten> m_kantenvec;
     
     set<Position> m_positions;
     set<Kanten> m_kanten;
-    
+    vector<Position> m_path;
     
 };
+
+
 
 #endif /* DUNGEONMAP_H */
 
