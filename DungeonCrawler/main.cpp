@@ -31,7 +31,7 @@ int main(int argc, char** argv)
   
     game.run();
     
-    //Test Kommentar
+    //Test Kommentar 2
     
     return 0;
 }
