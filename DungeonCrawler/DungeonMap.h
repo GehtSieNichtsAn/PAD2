@@ -64,12 +64,10 @@ private:
     int m_width;
     Tile*** m_field;
     
-    vector<Character*> m_spielfiguren;
-    vector<Kanten> m_kantenvec;
+    vector<Character*> m_spielfiguren;     
     
-    set<Position> m_positions;
     set<Kanten> m_kanten;
-    vector<Position> m_path;
+    set<Position> m_path;
     
 };
 

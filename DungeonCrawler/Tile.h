@@ -52,6 +52,8 @@ public:
     ~Floor();
     void placeItem(Item *item);
     void onEnter(Character* character) override;
+    bool canEnter() override;
+
     vector<Item*> getItemsOnTile();
     
 private:

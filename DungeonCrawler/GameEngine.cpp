@@ -53,7 +53,8 @@ int GameEngine::turn() {
     for(Character* spieler : m_spielfiguren) {
         
         if(spieler->getController()->getControllerName() == "AttackController") {
-            fromPos = m_dng->find(spieler);                
+            fromPos = m_dng->find(spieler);    
+            
             toPos = m_dng->find(m_spielfiguren.at(0)); //ersetzen durch eine mechanik die einen consolecontroller raussucht vllt attribut "enemy" und dann character* speichern
             
             m_dng->getPathTo(fromPos, toPos);

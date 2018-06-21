@@ -81,6 +81,11 @@ Floor::~Floor() {
     }
 }
 
+bool Floor::canEnter() {
+    return true;    //muss sehr warhscheinlich überschrieben werden damit Kampf möglich ist
+    
+}
+
 
 void Floor::placeItem(Item* item) {
     m_kachelsymbol = '*';
