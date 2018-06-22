@@ -374,7 +374,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
 }
 
 
-void DungeonMap::getPathTo(Position from, Position to) {
+set<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
   
     
     
@@ -437,6 +437,8 @@ void DungeonMap::getPathTo(Position from, Position to) {
         
     }while(loop != true); 
     
+    
+    
     cout << "Path: " << m_path.size()  << endl;
     
 //    for(auto el : m_path) {
@@ -446,10 +448,13 @@ void DungeonMap::getPathTo(Position from, Position to) {
 //    for(auto el : test) {
 //        cout << el << endl;
 //    }
-    
-    m_path.clear();
-    m_kanten.clear();
 
+    
+    
+ 
+       
+    
+    return m_path; 
 }
 
 bool operator<(const DungeonMap::Position& lhs, const DungeonMap::Position& rhs) {
@@ -483,5 +488,11 @@ DungeonMap::Kanten::Kanten(DungeonMap::Position self, DungeonMap::Position sourc
     m_source = source;
     m_visited = visited;
 }
+
+void DungeonMap::clearSets() {
+   m_path.clear();
+   m_kanten.clear();
+}
+
 
 

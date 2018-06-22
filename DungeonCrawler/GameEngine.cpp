@@ -17,6 +17,7 @@
 #include "Tile.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "string"
 #include "Passive.h"
 
@@ -46,104 +47,140 @@ int GameEngine::turn() {
 
     int direction = 0;
     
-    DungeonMap::Position fromPos;
-    
+    DungeonMap::Position fromPos;    
     DungeonMap::Position toPos;
+    vector<set<DungeonMap::Position>> AllPaths;
+    set<DungeonMap::Position> MinimalPath;
+     
     
     for(Character* spieler : m_spielfiguren) {
         
+        direction = spieler->move();
+        
         if(spieler->getController()->getControllerName() == "AttackController") {
             fromPos = m_dng->find(spieler);    
-            
-            toPos = m_dng->find(m_spielfiguren.at(0)); //ersetzen durch eine mechanik die einen consolecontroller raussucht vllt attribut "enemy" und dann character* speichern
-            
-            m_dng->getPathTo(fromPos, toPos);
-        }
-        
-        direction = spieler->move();    
-               
-        
-        if(direction != 5 && direction <= 9) {
-
-            
-            
-            fromPos = m_dng->find(spieler);
             Tile *fromTile = m_dng->find(fromPos);
-
-            switch(direction) {
-                case 0:
-                    //Menü
-                    cout << "1. Spiel beenden" << endl;
-                    cout << "2. Spielerinfos anzeigen" << endl;
-                    cout << "3. Spielstand speichern" << endl;
-                    cout << "4. Spielstand laden" << endl;
-                                        
-                    
-                    
-                    int auswahl;
-                    
-                    cout << "Auswahl: ";
-                    cin >> auswahl;
-                    if(auswahl == 1) {
-                        exit(0);
-                    } else if(auswahl == 2) {                        
-                        spieler->showInfo();   
-                    } else if(auswahl == 3) {
-                        saveToFile();
-                    } else if(auswahl == 4) {
-                        loadFromFile();
-                        return 0;
-                    }
-                    toPos.Spalte = fromPos.Spalte;
-                    toPos.Reihe = fromPos.Reihe; 
-                
-                break;
-                case 1: 
-                    toPos.Spalte = fromPos.Spalte + 1;
-                    toPos.Reihe = fromPos.Reihe - 1;              
-                break;
-                case 2:
-                    toPos.Spalte = fromPos.Spalte + 1;
-                    toPos.Reihe = fromPos.Reihe;
-                break;
-                case 3:
-                    toPos.Spalte = fromPos.Spalte + 1;
-                    toPos.Reihe = fromPos.Reihe + 1;
-                break;
-                case 4:
-                    toPos.Spalte = fromPos.Spalte;
-                    toPos.Reihe = fromPos.Reihe - 1;
-                break;
-                case 6:
-                    toPos.Spalte = fromPos.Spalte;
-                    toPos.Reihe = fromPos.Reihe + 1;
-                break;
-                case 7:
-                    toPos.Spalte = fromPos.Spalte - 1;
-                    toPos.Reihe = fromPos.Reihe - 1;
-                break;
-                case 8:
-                    toPos.Spalte = fromPos.Spalte - 1;
-                    toPos.Reihe = fromPos.Reihe;
-                break;
-                case 9:
-                    toPos.Spalte = fromPos.Spalte - 1;
-                    toPos.Reihe = fromPos.Reihe + 1;
-                break;
-                default:
-
-                break;
-
-            }
-
+            
+            //für jeden Gegner kürzesten Weg berechnen
+            for(Character* enemy : m_spielfiguren) {
+                if(enemy->getController()->getControllerName() == "ConsoleController") {
+                    toPos = m_dng->find(enemy);
+                    AllPaths.push_back(m_dng->getPathTo(fromPos, toPos));
+                    m_dng->clearSets();
+                }                 
+            }        
+            
+            
+            //kleinste Distanz suchen
+            int min = AllPaths[0].size();
+            int iterator = 0;
+            
+            for(int i = 0; i < AllPaths.size(); i++) {
+                if(AllPaths[i].size() < min) {
+                    min = AllPaths[i].size();
+                    iterator = i;
+                }
+            }     
+            
+            MinimalPath = AllPaths[iterator];
+            
+            //vorletzte Position ist nächste Position
+            set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
+            advance(iter, MinimalPath.size()-2);
+            
+            nextPos = *iter;
+            cout << nextPos.Spalte << " " << nextPos.Reihe;
+             
+            toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
+            toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
+            
+            
             Tile *toTile = m_dng->find(toPos);
-           
-
             fromTile->onLeave(toTile);
             
-            
+        } else {
+        
+            if(direction != 5 && direction <= 9) {
+
+                fromPos = m_dng->find(spieler);
+                Tile *fromTile = m_dng->find(fromPos);
+
+                switch(direction) {
+                    case 0:
+                        //Menü
+                        cout << "1. Spiel beenden" << endl;
+                        cout << "2. Spielerinfos anzeigen" << endl;
+                        cout << "3. Spielstand speichern" << endl;
+                        cout << "4. Spielstand laden" << endl;
+
+
+
+                        int auswahl;
+
+                        cout << "Auswahl: ";
+                        cin >> auswahl;
+                        if(auswahl == 1) {
+                            exit(0);
+                        } else if(auswahl == 2) {                        
+                            spieler->showInfo();   
+                        } else if(auswahl == 3) {
+                            saveToFile();
+                        } else if(auswahl == 4) {
+                            loadFromFile();
+                            return 0;
+                        }
+                        toPos.Spalte = fromPos.Spalte;
+                        toPos.Reihe = fromPos.Reihe; 
+
+                    break;
+                    case 1: 
+                        toPos.Spalte = fromPos.Spalte + 1;
+                        toPos.Reihe = fromPos.Reihe - 1;              
+                    break;
+                    case 2:
+                        toPos.Spalte = fromPos.Spalte + 1;
+                        toPos.Reihe = fromPos.Reihe;
+                    break;
+                    case 3:
+                        toPos.Spalte = fromPos.Spalte + 1;
+                        toPos.Reihe = fromPos.Reihe + 1;
+                    break;
+                    case 4:
+                        toPos.Spalte = fromPos.Spalte;
+                        toPos.Reihe = fromPos.Reihe - 1;
+                    break;
+                    case 6:
+                        toPos.Spalte = fromPos.Spalte;
+                        toPos.Reihe = fromPos.Reihe + 1;
+                    break;
+                    case 7:
+                        toPos.Spalte = fromPos.Spalte - 1;
+                        toPos.Reihe = fromPos.Reihe - 1;
+                    break;
+                    case 8:
+                        toPos.Spalte = fromPos.Spalte - 1;
+                        toPos.Reihe = fromPos.Reihe;
+                    break;
+                    case 9:
+                        toPos.Spalte = fromPos.Spalte - 1;
+                        toPos.Reihe = fromPos.Reihe + 1;
+                    break;
+                    default:
+
+                    break;
+
+                }
+                
+                Tile *toTile = m_dng->find(toPos);
+                fromTile->onLeave(toTile);
+                
+            }           
         }
     }
+    
+    
+    
+    
     return 0;
 }
 
@@ -346,3 +383,6 @@ void GameEngine::loadFromFile() {
     m_spielfiguren = m_dng->getCharacters();  
     
 }
+
+
+

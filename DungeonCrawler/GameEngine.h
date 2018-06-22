@@ -34,6 +34,7 @@ private:
 
     DungeonMap* m_dng;
     vector<Character*> m_spielfiguren;
+    DungeonMap::Position nextPos;
 };
 
 #endif /* GAMEENGINE_H */

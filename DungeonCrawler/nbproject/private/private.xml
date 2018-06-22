@@ -8,6 +8,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/stud/NetBeansProjects/PAD2/DungeonCrawler/DungeonMap.cpp</file>
+            <file>file:/home/stud/NetBeansProjects/PAD2/DungeonCrawler/GameEngine.cpp</file>
+            <file>file:/home/stud/NetBeansProjects/PAD2/DungeonCrawler/Tile.cpp</file>
+            <file>file:/home/stud/NetBeansProjects/PAD2/DungeonCrawler/Tile.h</file>
             <file>file:/home/stud/NetBeansProjects/PAD2/DungeonCrawler/DungeonMap.h</file>
         </group>
     </open-files>

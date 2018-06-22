@@ -55,7 +55,9 @@ public:
     void getKanten(set<Kanten>& Kanten, Position from);
     
     vector<Character*>& getCharacters();    
-    void getPathTo(Position from, Position to);
+    set<Position> getPathTo(Position from, Position to);
+    
+    void clearSets();
     
 private:
 

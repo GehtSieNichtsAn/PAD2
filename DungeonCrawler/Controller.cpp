@@ -81,12 +81,7 @@ AttackController::AttackController() {
     m_ControllerName = "AttackController";
 }
 
-int AttackController::move(char symbol) {
-    
-    
-    
-    
-    
+int AttackController::move(char symbol) {   
     return 5;
 }
 
