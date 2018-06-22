@@ -30,6 +30,7 @@ GameEngine::GameEngine() {
     m_dng = new DungeonMap("Spielfeld.txt", "Parameter.txt");
         
     m_spielfiguren = m_dng->getCharacters();
+ 
 }
 
 
@@ -51,9 +52,19 @@ int GameEngine::turn() {
     DungeonMap::Position toPos;
     vector<set<DungeonMap::Position>> AllPaths;
     set<DungeonMap::Position> MinimalPath;
-     
+    int cnt = 0;
     
     for(Character* spieler : m_spielfiguren) {
+        
+        //prüfen ob Spieler tot ist
+        if(spieler->getHitpoints() < 1) {
+            m_spielfiguren.erase(m_spielfiguren.begin() + cnt);
+            
+            delete spieler;
+        }
+        cnt++;
+        
+        
         
         direction = spieler->move();
         
@@ -189,9 +200,9 @@ bool GameEngine::finished() {
     
     for(Character* spieler : m_spielfiguren) {
         
-        if(spieler->getHitpoints() == 0) {
-            return true;
-        }
+//        if(spieler->getHitpoints() == 0) {
+//            return true;
+//        }
         
         CharPos = m_dng->find(spieler);
         

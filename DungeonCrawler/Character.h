@@ -52,6 +52,7 @@ private:
     int m_hitpoints;
      
     std::vector<Item*> m_CharacterItems;
+   
 };
 
 #endif /* CHARACTER_H */
