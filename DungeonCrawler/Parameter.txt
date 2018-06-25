@@ -21,6 +21,7 @@ Active 10 5 11 4
 Active 2 10 2 14
 Active 6 6 5 6
 Character 1 1 $ 5 5 ConsoleController
+Character 5 1 & 1 1 ConsoleController
 Character 15 6 % 3 3 StationaryController
 Character 15 7 % 3 3 StationaryController
 Character 10 14 = 5 5 AttackController

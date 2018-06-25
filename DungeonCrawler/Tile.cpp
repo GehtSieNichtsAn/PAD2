@@ -112,11 +112,13 @@ void Floor::onEnter(Character* character) {
         this->m_character = character;        
     } else {
         //Kampf   
-        this->m_character->setHitpoints(character->getStrength());
+        if(this->m_character->getController()->getControllerName() != character->getController()->getControllerName()) {
+            this->m_character->setHitpoints(character->getStrength());
         
-        if(this->m_character->getHitpoints() >= 1) {
-            character->setHitpoints(this->m_character->getStrength());           
-        }     
+            if(this->m_character->getHitpoints() >= 1) {
+                character->setHitpoints(this->m_character->getStrength());           
+            }
+        }       
     }
  
     if(this->m_ItemsOnTile.empty() == false) {

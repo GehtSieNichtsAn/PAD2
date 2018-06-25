@@ -38,6 +38,8 @@ public:
     
     Switch(string status);
     void onEnter(Character* character) override;
+    bool canEnter() override;
+
 
 };
 

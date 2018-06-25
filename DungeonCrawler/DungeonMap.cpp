@@ -382,7 +382,7 @@ vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
             if(kante.m_visited == false) {                
                 getKanten(m_kanten, kante.m_self);
                 kante.m_visited = true;     
-
+                
             }            
         }            
     }
@@ -417,9 +417,9 @@ vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
         for(Kanten kante : m_kanten) {
             if(kante.m_self.Spalte == to.Spalte && kante.m_self.Reihe == to.Reihe) {
                 cnt++;
-                //alle Kacheln von To-Positon aus zurück gehen
-                //m_path.insert(kante.m_self);
+                //alle Kacheln von To-Positon aus zurück gehen                
                 m_path.push_back(kante.m_self);
+                
                 to.Spalte = kante.m_source.Spalte;
                 to.Reihe = kante.m_source.Reihe;
                 
@@ -435,10 +435,7 @@ vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
         }
         
     }while(loop != true); 
-    
-    
-    
-    //cout << "Path: " << m_path.size()  << endl;
+
     
 //    for(auto el : m_path) {
 //        test[el.Spalte][el.Reihe] = '#';        
@@ -447,28 +444,9 @@ vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
 //    for(auto el : test) {
 //        cout << el << endl;
 //    }
-
-    
-//    for(auto el : m_path) {
-//        cout << el.Spalte << " " << el.Reihe << endl;
-//    }
-    
-       
+      
     
     return m_path; 
-}
-
-bool operator<(const DungeonMap::Position& lhs, const DungeonMap::Position& rhs) {
-
-    if(lhs.Spalte < rhs.Spalte) {
-        return true;
-    } else if(lhs.Spalte == rhs.Spalte) {
-        if(lhs.Reihe < rhs.Reihe) {
-            return true;
-        }
-    }
-    return false;
-    
 }
 
 bool operator<(const DungeonMap::Kanten& lhs, const DungeonMap::Kanten& rhs) {

@@ -50,6 +50,11 @@ void Switch::onEnter(Character* character) {
     
 }
 
+bool Switch::canEnter() {
+    return true;
+}
+
+
 
 Lever::Lever() {
     m_kachelsymbol = 'L';   

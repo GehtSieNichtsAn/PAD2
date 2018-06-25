@@ -59,9 +59,21 @@ int GameEngine::turn() {
         
         //prüfen ob Spieler tot ist
         if(spieler->getHitpoints() < 1) {
-            m_spielfiguren.erase(m_spielfiguren.begin() + cnt);
-            
+            m_spielfiguren.erase(m_spielfiguren.begin() + cnt);            
             delete spieler;
+            
+            int alivePlayers = 0;
+            
+            for(auto el : m_spielfiguren) {
+                if(el->getController()->getControllerName() == "ConsoleController") {
+                    alivePlayers++;
+                }                
+            }
+            
+            if(alivePlayers == 0) {
+                exit(0);
+            }
+            
         } else {
             cnt++;
 
@@ -92,14 +104,6 @@ int GameEngine::turn() {
                     int min = AllPaths[0].size();
                     int iterator = 0;
 
-//                    cout << "min" << min;
-//                    cout << "size" << AllPaths[0].size() << endl;
-//
-//                    for(auto path : AllPaths) {
-//                        cout << "Size2" << path.size() << endl;
-//                    }
-
-
                     for(int i = 0; i < AllPaths.size(); i++) {
                         if(AllPaths[i].size() < min) {
                             min = AllPaths[i].size();
@@ -108,32 +112,17 @@ int GameEngine::turn() {
                     }     
 
                     MinimalPath = AllPaths[iterator];
-                    //cout << "iterator" << iterator;
-                    //vorletzte Position ist nächste Position
-//                    set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
-//                    advance(iter, MinimalPath.size()-2);
-
-                    //nextPos = *iter;
+                 
                     nextPos = MinimalPath[MinimalPath.size()-2];
                     cout << nextPos.Spalte << " " << nextPos.Reihe;
 
                     toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
                     toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
-//                    cout << fromPos.Spalte << " " << fromPos.Reihe;
-//                    cout << toPos.Spalte << " " << toPos.Reihe;
+
                     Tile *toTile = m_dng->find(toPos);
                     fromTile->onLeave(toTile);
 
-
-
                 }
-//                    else {
-//
-//    //                toPos.Spalte = fromPos.Spalte;
-//    //                toPos.Reihe = fromPos.Reihe;
-//                    cout << "Tes213t";
-//
-//                }
 
                 AllPaths.clear();
             } else {
@@ -223,15 +212,19 @@ int GameEngine::turn() {
 bool GameEngine::finished() {
     DungeonMap::Position CharPos;
     
-    for(Character* spieler : m_spielfiguren) {
-        
-        CharPos = m_dng->find(spieler);
-        
-        if(CharPos.Spalte == 18 && CharPos.Reihe == 2) {
-                return true;
+    if(m_spielfiguren.empty() == true) {
+        return true;
+    } else {
+        for(Character* spieler : m_spielfiguren) {
+
+            CharPos = m_dng->find(spieler);
+
+            if(CharPos.Spalte == 18 && CharPos.Reihe == 2) {
+                    return true;
+            }
         }
     }
-     
+    
     return false; 
    
 }
@@ -344,12 +337,12 @@ void GameEngine::saveToFile() {
     string ControllerName;
 
     for(Character* spieler : m_spielfiguren) {
-        
+              
         pos = m_dng->find(spieler);
         
         vector<Item*> CharacterItems = spieler->getCharacterItems();
         for(Item* item : CharacterItems) {
-            ParameterSave << item->getname() << " " << pos.Spalte << " " << pos.Reihe << "\n";
+            ParameterSave << item->getname() << " " << pos.Spalte << " " << pos.Reihe << "\n";          
         }
         
         ParameterSave << "Character " << pos.Spalte << " " << pos.Reihe << " " << spieler->getSymbol() << " " << spieler->getStrength() << " " << spieler->getStamina() << " ";
