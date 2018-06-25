@@ -53,7 +53,11 @@ public:
     void placeItem(Item *item);
     void onEnter(Character* character) override;
     bool canEnter() override;
+    void onLeave(Tile* toTile) override;
 
+
+    
+    
     vector<Item*> getItemsOnTile();
     
 private:

@@ -81,9 +81,26 @@ Floor::~Floor() {
     }
 }
 
-bool Floor::canEnter() {
-    return true;    //muss sehr warhscheinlich überschrieben werden damit Kampf möglich ist
+void Floor::onLeave(Tile* toTile) {
+
+    if(toTile->getCharacter() == NULL && toTile->canEnter() == true) {
+        toTile->onEnter(this->getCharacter());    
+        this->m_character = NULL;       
+    } else {
+        toTile->onEnter(this->getCharacter());   
+    }
+    //fehler wtf kp
     
+//    if(toTile->canEnter() == true) {
+//        toTile->onEnter(this->getCharacter());    
+//        this->m_character = NULL;        
+//    }
+
+    
+}
+
+bool Floor::canEnter() {
+    return true;     
 }
 
 
@@ -93,7 +110,23 @@ void Floor::placeItem(Item* item) {
 }
 
 void Floor::onEnter(Character* character) {
-    this->m_character = character; //hier fehler
+    
+    if(this->m_character == NULL) {        
+        this->m_character = character;        
+    } else {
+        //Kampf        
+        this->m_character->setHitpoints(character->getStrength());
+        
+        if(this->m_character->getHitpoints() < 1) {            
+            this->m_character = character;
+        } else {
+            character->setHitpoints(this->m_character->getStrength());
+        }
+        
+    }
+    
+    
+    //this->m_character = character; 
     if(this->m_ItemsOnTile.empty() == false) {
         character->addItem(m_ItemsOnTile);
         m_ItemsOnTile.clear();
@@ -114,4 +147,3 @@ bool Wall::canEnter() {
 }
 
 //////////////Wall End/////////////////
-

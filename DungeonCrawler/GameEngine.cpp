@@ -51,6 +51,7 @@ int GameEngine::turn() {
     DungeonMap::Position fromPos;    
     DungeonMap::Position toPos;
     vector<set<DungeonMap::Position>> AllPaths;
+    set<DungeonMap::Position> tmpSet;
     set<DungeonMap::Position> MinimalPath;
     int cnt = 0;
     
@@ -76,8 +77,11 @@ int GameEngine::turn() {
             for(Character* enemy : m_spielfiguren) {
                 if(enemy->getController()->getControllerName() == "ConsoleController") {
                     toPos = m_dng->find(enemy);
-                    AllPaths.push_back(m_dng->getPathTo(fromPos, toPos));
-                    m_dng->clearSets();
+                    tmpSet = m_dng->getPathTo(fromPos, toPos);
+                    if(tmpSet.empty() == false) {
+                        AllPaths.push_back(tmpSet);
+                        m_dng->clearSets();
+                    }
                 }                 
             }        
             
@@ -86,21 +90,32 @@ int GameEngine::turn() {
             int min = AllPaths[0].size();
             int iterator = 0;
             
+            cout << "min" << min;
+            cout << "size" << AllPaths[0].size() << endl;
+            
+            for(auto path : AllPaths) {
+                cout << "Size2" << path.size() << endl;
+            }
+            
+            
             for(int i = 0; i < AllPaths.size(); i++) {
-                if(AllPaths[i].size() < min) {
+                if(AllPaths[i].size() == 0) {
+                    //AllPaths.erase(AllPaths.begin()+i);
+                    cout << "Hallo";
+                } else if(AllPaths[i].size() < min) {
                     min = AllPaths[i].size();
                     iterator = i;
                 }
             }     
             
             MinimalPath = AllPaths[iterator];
-            
+            cout << "iterator" << iterator;
             //vorletzte Position ist nächste Position
             set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
             advance(iter, MinimalPath.size()-2);
             
             nextPos = *iter;
-            cout << nextPos.Spalte << " " << nextPos.Reihe;
+            //cout << nextPos.Spalte << " " << nextPos.Reihe;
              
             toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
             toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
@@ -108,6 +123,8 @@ int GameEngine::turn() {
             
             Tile *toTile = m_dng->find(toPos);
             fromTile->onLeave(toTile);
+            
+            AllPaths.clear();
             
         } else {
         
@@ -199,10 +216,6 @@ bool GameEngine::finished() {
     DungeonMap::Position CharPos;
     
     for(Character* spieler : m_spielfiguren) {
-        
-//        if(spieler->getHitpoints() == 0) {
-//            return true;
-//        }
         
         CharPos = m_dng->find(spieler);
         
