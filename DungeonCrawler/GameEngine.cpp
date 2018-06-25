@@ -50,9 +50,9 @@ int GameEngine::turn() {
     
     DungeonMap::Position fromPos;    
     DungeonMap::Position toPos;
-    vector<set<DungeonMap::Position>> AllPaths;
-    set<DungeonMap::Position> tmpSet;
-    set<DungeonMap::Position> MinimalPath;
+    vector<vector<DungeonMap::Position>> AllPaths;
+    vector<DungeonMap::Position> tmpSet;
+    vector<DungeonMap::Position> MinimalPath;
     int cnt = 0;
     
     for(Character* spieler : m_spielfiguren) {
@@ -110,16 +110,17 @@ int GameEngine::turn() {
                     MinimalPath = AllPaths[iterator];
                     //cout << "iterator" << iterator;
                     //vorletzte Position ist nächste Position
-                    set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
-                    advance(iter, MinimalPath.size()-2);
+//                    set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
+//                    advance(iter, MinimalPath.size()-2);
 
-                    nextPos = *iter;
+                    //nextPos = *iter;
+                    nextPos = MinimalPath[MinimalPath.size()-2];
                     cout << nextPos.Spalte << " " << nextPos.Reihe;
 
                     toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
                     toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
-                    cout << fromPos.Spalte << " " << fromPos.Reihe;
-                    cout << toPos.Spalte << " " << toPos.Reihe;
+//                    cout << fromPos.Spalte << " " << fromPos.Reihe;
+//                    cout << toPos.Spalte << " " << toPos.Reihe;
                     Tile *toTile = m_dng->find(toPos);
                     fromTile->onLeave(toTile);
 

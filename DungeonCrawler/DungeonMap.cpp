@@ -374,7 +374,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
 }
 
 
-set<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
+vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
   
     getKanten(m_kanten, from);
     for(int i = 0; i < m_width*m_height; i++) {     
@@ -388,27 +388,27 @@ set<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
     }
     
    
-    vector<string> test;
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
-    test.push_back("++++++++++++++++++++");
+//    vector<string> test;
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
+//    test.push_back("++++++++++++++++++++");
     
       
     bool loop = false;    
@@ -418,8 +418,8 @@ set<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
             if(kante.m_self.Spalte == to.Spalte && kante.m_self.Reihe == to.Reihe) {
                 cnt++;
                 //alle Kacheln von To-Positon aus zurück gehen
-                m_path.insert(kante.m_self);
-
+                //m_path.insert(kante.m_self);
+                m_path.push_back(kante.m_self);
                 to.Spalte = kante.m_source.Spalte;
                 to.Reihe = kante.m_source.Reihe;
                 
@@ -440,17 +440,19 @@ set<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
     
     //cout << "Path: " << m_path.size()  << endl;
     
-    for(auto el : m_path) {
-        test[el.Spalte][el.Reihe] = '#';        
-    }    
-    
-    for(auto el : test) {
-        cout << el << endl;
-    }
+//    for(auto el : m_path) {
+//        test[el.Spalte][el.Reihe] = '#';        
+//    }    
+//    
+//    for(auto el : test) {
+//        cout << el << endl;
+//    }
 
     
+//    for(auto el : m_path) {
+//        cout << el.Spalte << " " << el.Reihe << endl;
+//    }
     
- 
        
     
     return m_path; 

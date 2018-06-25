@@ -55,7 +55,7 @@ public:
     void getKanten(set<Kanten>& Kanten, Position from);
     
     vector<Character*>& getCharacters();    
-    set<Position> getPathTo(Position from, Position to);
+    vector<Position> getPathTo(Position from, Position to);
     
     void clearSets();    
     
@@ -69,7 +69,8 @@ private:
     vector<Character*> m_spielfiguren;     
     
     set<Kanten> m_kanten;
-    set<Position> m_path;
+    //set<Position> m_path;
+    vector<Position> m_path;
     
 };
 
