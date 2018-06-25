@@ -62,166 +62,163 @@ int GameEngine::turn() {
             m_spielfiguren.erase(m_spielfiguren.begin() + cnt);
             
             delete spieler;
-        }
-        cnt++;
-        
-        
-        
-        direction = spieler->move();
-        
-        if(spieler->getController()->getControllerName() == "AttackController") {
-            fromPos = m_dng->find(spieler);    
-            Tile *fromTile = m_dng->find(fromPos);
-            
-            //für jeden Gegner kürzesten Weg berechnen
-            for(Character* enemy : m_spielfiguren) {
-                if(enemy->getController()->getControllerName() == "ConsoleController") {
-                    toPos = m_dng->find(enemy);
-                    tmpSet = m_dng->getPathTo(fromPos, toPos);
-                    if(tmpSet.empty() == false) {
-                        AllPaths.push_back(tmpSet);
-                        m_dng->clearSets();                        
-                    }
-                }                 
-            }        
-            
-            if(AllPaths.empty() == false) {
-            
-            
-                //kleinste Distanz suchen
-                int min = AllPaths[0].size();
-                int iterator = 0;
-
-                cout << "min" << min;
-                cout << "size" << AllPaths[0].size() << endl;
-
-                for(auto path : AllPaths) {
-                    cout << "Size2" << path.size() << endl;
-                }
-
-
-                for(int i = 0; i < AllPaths.size(); i++) {
-                    if(AllPaths[i].size() == 0) {
-                        //AllPaths.erase(AllPaths.begin()+i);
-                        cout << "Hallo";
-                    } else if(AllPaths[i].size() < min) {
-                        min = AllPaths[i].size();
-                        iterator = i;
-                    }
-                }     
-
-                MinimalPath = AllPaths[iterator];
-                cout << "iterator" << iterator;
-                //vorletzte Position ist nächste Position
-                set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
-                advance(iter, MinimalPath.size()-2);
-
-                nextPos = *iter;
-                //cout << nextPos.Spalte << " " << nextPos.Reihe;
-
-                toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
-                toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
-
-
-                Tile *toTile = m_dng->find(toPos);
-                fromTile->onLeave(toTile);
-
-                
-            
-            } else {
-                
-//                toPos.Spalte = fromPos.Spalte;
-//                toPos.Reihe = fromPos.Reihe;
-                cout << "Test";
-                
-            }
-            
-            AllPaths.clear();
-            
         } else {
-        
-            if(direction != 5 && direction <= 9) {
+            cnt++;
 
-                fromPos = m_dng->find(spieler);
+
+
+            direction = spieler->move();
+
+            if(spieler->getController()->getControllerName() == "AttackController") {
+                fromPos = m_dng->find(spieler);    
                 Tile *fromTile = m_dng->find(fromPos);
 
-                switch(direction) {
-                    case 0:
-                        //Menü
-                        cout << "1. Spiel beenden" << endl;
-                        cout << "2. Spielerinfos anzeigen" << endl;
-                        cout << "3. Spielstand speichern" << endl;
-                        cout << "4. Spielstand laden" << endl;
-
-
-
-                        int auswahl;
-
-                        cout << "Auswahl: ";
-                        cin >> auswahl;
-                        if(auswahl == 1) {
-                            exit(0);
-                        } else if(auswahl == 2) {                        
-                            spieler->showInfo();   
-                        } else if(auswahl == 3) {
-                            saveToFile();
-                        } else if(auswahl == 4) {
-                            loadFromFile();
-                            return 0;
+                //für jeden Gegner kürzesten Weg berechnen
+                for(Character* enemy : m_spielfiguren) {
+                    if(enemy->getController()->getControllerName() == "ConsoleController") {
+                        toPos = m_dng->find(enemy);
+                        tmpSet = m_dng->getPathTo(fromPos, toPos);
+                        if(tmpSet.empty() == false) {
+                            AllPaths.push_back(tmpSet);
+                            m_dng->clearSets();                        
                         }
-                        toPos.Spalte = fromPos.Spalte;
-                        toPos.Reihe = fromPos.Reihe; 
+                    }                 
+                }        
 
-                    break;
-                    case 1: 
-                        toPos.Spalte = fromPos.Spalte + 1;
-                        toPos.Reihe = fromPos.Reihe - 1;              
-                    break;
-                    case 2:
-                        toPos.Spalte = fromPos.Spalte + 1;
-                        toPos.Reihe = fromPos.Reihe;
-                    break;
-                    case 3:
-                        toPos.Spalte = fromPos.Spalte + 1;
-                        toPos.Reihe = fromPos.Reihe + 1;
-                    break;
-                    case 4:
-                        toPos.Spalte = fromPos.Spalte;
-                        toPos.Reihe = fromPos.Reihe - 1;
-                    break;
-                    case 6:
-                        toPos.Spalte = fromPos.Spalte;
-                        toPos.Reihe = fromPos.Reihe + 1;
-                    break;
-                    case 7:
-                        toPos.Spalte = fromPos.Spalte - 1;
-                        toPos.Reihe = fromPos.Reihe - 1;
-                    break;
-                    case 8:
-                        toPos.Spalte = fromPos.Spalte - 1;
-                        toPos.Reihe = fromPos.Reihe;
-                    break;
-                    case 9:
-                        toPos.Spalte = fromPos.Spalte - 1;
-                        toPos.Reihe = fromPos.Reihe + 1;
-                    break;
-                    default:
+                if(AllPaths.empty() == false) {
 
-                    break;
+
+                    //kleinste Distanz suchen
+                    int min = AllPaths[0].size();
+                    int iterator = 0;
+
+                    cout << "min" << min;
+                    cout << "size" << AllPaths[0].size() << endl;
+
+                    for(auto path : AllPaths) {
+                        cout << "Size2" << path.size() << endl;
+                    }
+
+
+                    for(int i = 0; i < AllPaths.size(); i++) {
+                        if(AllPaths[i].size() == 0) {
+                            //AllPaths.erase(AllPaths.begin()+i);
+                            cout << "Hallo";
+                        } else if(AllPaths[i].size() < min) {
+                            min = AllPaths[i].size();
+                            iterator = i;
+                        }
+                    }     
+
+                    MinimalPath = AllPaths[iterator];
+                    cout << "iterator" << iterator;
+                    //vorletzte Position ist nächste Position
+                    set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
+                    advance(iter, MinimalPath.size()-2);
+
+                    nextPos = *iter;
+                    //cout << nextPos.Spalte << " " << nextPos.Reihe;
+
+                    toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
+                    toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
+
+
+                    Tile *toTile = m_dng->find(toPos);
+                    fromTile->onLeave(toTile);
+
+
+
+                } else {
+
+    //                toPos.Spalte = fromPos.Spalte;
+    //                toPos.Reihe = fromPos.Reihe;
+                    cout << "Test";
 
                 }
-                
-                Tile *toTile = m_dng->find(toPos);
-                fromTile->onLeave(toTile);
-                
-            }           
+
+                AllPaths.clear();
+            } else {
+
+                if(direction != 5 && direction <= 9) {
+
+                    fromPos = m_dng->find(spieler);
+                    Tile *fromTile = m_dng->find(fromPos);
+
+                    switch(direction) {
+                        case 0:
+                            //Menü
+                            cout << "1. Spiel beenden" << endl;
+                            cout << "2. Spielerinfos anzeigen" << endl;
+                            cout << "3. Spielstand speichern" << endl;
+                            cout << "4. Spielstand laden" << endl;
+
+
+
+                            int auswahl;
+
+                            cout << "Auswahl: ";
+                            cin >> auswahl;
+                            if(auswahl == 1) {
+                                exit(0);
+                            } else if(auswahl == 2) {                        
+                                spieler->showInfo();   
+                            } else if(auswahl == 3) {
+                                saveToFile();
+                            } else if(auswahl == 4) {
+                                loadFromFile();
+                                return 0;
+                            }
+                            toPos.Spalte = fromPos.Spalte;
+                            toPos.Reihe = fromPos.Reihe; 
+
+                        break;
+                        case 1: 
+                            toPos.Spalte = fromPos.Spalte + 1;
+                            toPos.Reihe = fromPos.Reihe - 1;              
+                        break;
+                        case 2:
+                            toPos.Spalte = fromPos.Spalte + 1;
+                            toPos.Reihe = fromPos.Reihe;
+                        break;
+                        case 3:
+                            toPos.Spalte = fromPos.Spalte + 1;
+                            toPos.Reihe = fromPos.Reihe + 1;
+                        break;
+                        case 4:
+                            toPos.Spalte = fromPos.Spalte;
+                            toPos.Reihe = fromPos.Reihe - 1;
+                        break;
+                        case 6:
+                            toPos.Spalte = fromPos.Spalte;
+                            toPos.Reihe = fromPos.Reihe + 1;
+                        break;
+                        case 7:
+                            toPos.Spalte = fromPos.Spalte - 1;
+                            toPos.Reihe = fromPos.Reihe - 1;
+                        break;
+                        case 8:
+                            toPos.Spalte = fromPos.Spalte - 1;
+                            toPos.Reihe = fromPos.Reihe;
+                        break;
+                        case 9:
+                            toPos.Spalte = fromPos.Spalte - 1;
+                            toPos.Reihe = fromPos.Reihe + 1;
+                        break;
+                        default:
+
+                        break;
+
+                    }
+
+                    Tile *toTile = m_dng->find(toPos);
+                    fromTile->onLeave(toTile);                
+                }           
+            }
         }
     }
     
-    
-    
-    
     return 0;
+    
 }
 
 bool GameEngine::finished() {

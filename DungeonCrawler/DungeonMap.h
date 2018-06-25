@@ -57,7 +57,7 @@ public:
     vector<Character*>& getCharacters();    
     set<Position> getPathTo(Position from, Position to);
     
-    void clearSets();
+    void clearSets();    
     
 private:
 

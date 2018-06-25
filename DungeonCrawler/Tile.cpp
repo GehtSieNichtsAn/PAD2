@@ -83,7 +83,7 @@ Floor::~Floor() {
 
 void Floor::onLeave(Tile* toTile) {
 
-    if(toTile->canEnter() == true) {
+    if(toTile->canEnter() == true && toTile->getCharacter() == NULL) {
         toTile->onEnter(this->getCharacter());    
         this->m_character = NULL;         
     } else if(toTile->getCharacter() != NULL) {        
@@ -99,12 +99,8 @@ void Floor::onLeave(Tile* toTile) {
     
 }
 
-bool Floor::canEnter() {
-    if (m_character == NULL) {
-        return true;
-    }
-
-    return false;    
+bool Floor::canEnter() {   
+    return true;
 }
 
 
@@ -118,10 +114,12 @@ void Floor::onEnter(Character* character) {
     if(this->m_character == NULL) {        
         this->m_character = character;        
     } else {
-        //Kampf        
+        //Kampf   
+        cout << "Test;";
         this->m_character->setHitpoints(character->getStrength());
         
-        if(this->m_character->getHitpoints() < 1) {            
+        if(this->m_character->getHitpoints() < 1) {
+            cout << "LOL";
             this->m_character = character;
         } else {
             character->setHitpoints(this->m_character->getStrength());
