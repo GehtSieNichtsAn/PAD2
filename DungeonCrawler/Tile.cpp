@@ -88,14 +88,11 @@ void Floor::onLeave(Tile* toTile) {
         this->m_character = NULL;         
     } else if(toTile->getCharacter() != NULL) {        
         toTile->onEnter(this->getCharacter());   
+        if(toTile->getCharacter()->getHitpoints() < 1) {      
+            toTile->setCharacter(this->getCharacter());
+            this->m_character = NULL;           
+        }
     }
-    //fehler wtf kp
-    
-//    if(toTile->canEnter() == true) {
-//        toTile->onEnter(this->getCharacter());    
-//        this->m_character = NULL;        
-//    }
-
     
 }
 
@@ -115,20 +112,13 @@ void Floor::onEnter(Character* character) {
         this->m_character = character;        
     } else {
         //Kampf   
-        cout << "Test;";
         this->m_character->setHitpoints(character->getStrength());
         
-        if(this->m_character->getHitpoints() < 1) {
-            cout << "LOL";
-            this->m_character = character;
-        } else {
-            character->setHitpoints(this->m_character->getStrength());
-        }
-        
+        if(this->m_character->getHitpoints() >= 1) {
+            character->setHitpoints(this->m_character->getStrength());           
+        }     
     }
-    
-    
-    //this->m_character = character; 
+ 
     if(this->m_ItemsOnTile.empty() == false) {
         character->addItem(m_ItemsOnTile);
         m_ItemsOnTile.clear();

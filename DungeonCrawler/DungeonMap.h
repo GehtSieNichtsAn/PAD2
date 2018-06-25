@@ -52,7 +52,7 @@ public:
     int getWidth();
     int getHeight();
     
-    void getKanten(set<Kanten>& Kanten, Position from, Position to);
+    void getKanten(set<Kanten>& Kanten, Position from);
     
     vector<Character*>& getCharacters();    
     set<Position> getPathTo(Position from, Position to);

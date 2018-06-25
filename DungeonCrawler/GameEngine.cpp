@@ -92,49 +92,47 @@ int GameEngine::turn() {
                     int min = AllPaths[0].size();
                     int iterator = 0;
 
-                    cout << "min" << min;
-                    cout << "size" << AllPaths[0].size() << endl;
-
-                    for(auto path : AllPaths) {
-                        cout << "Size2" << path.size() << endl;
-                    }
+//                    cout << "min" << min;
+//                    cout << "size" << AllPaths[0].size() << endl;
+//
+//                    for(auto path : AllPaths) {
+//                        cout << "Size2" << path.size() << endl;
+//                    }
 
 
                     for(int i = 0; i < AllPaths.size(); i++) {
-                        if(AllPaths[i].size() == 0) {
-                            //AllPaths.erase(AllPaths.begin()+i);
-                            cout << "Hallo";
-                        } else if(AllPaths[i].size() < min) {
+                        if(AllPaths[i].size() < min) {
                             min = AllPaths[i].size();
                             iterator = i;
                         }
                     }     
 
                     MinimalPath = AllPaths[iterator];
-                    cout << "iterator" << iterator;
+                    //cout << "iterator" << iterator;
                     //vorletzte Position ist nächste Position
                     set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
                     advance(iter, MinimalPath.size()-2);
 
                     nextPos = *iter;
-                    //cout << nextPos.Spalte << " " << nextPos.Reihe;
+                    cout << nextPos.Spalte << " " << nextPos.Reihe;
 
                     toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
                     toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
-
-
+                    cout << fromPos.Spalte << " " << fromPos.Reihe;
+                    cout << toPos.Spalte << " " << toPos.Reihe;
                     Tile *toTile = m_dng->find(toPos);
                     fromTile->onLeave(toTile);
 
 
 
-                } else {
-
-    //                toPos.Spalte = fromPos.Spalte;
-    //                toPos.Reihe = fromPos.Reihe;
-                    cout << "Test";
-
                 }
+//                    else {
+//
+//    //                toPos.Spalte = fromPos.Spalte;
+//    //                toPos.Reihe = fromPos.Reihe;
+//                    cout << "Tes213t";
+//
+//                }
 
                 AllPaths.clear();
             } else {
