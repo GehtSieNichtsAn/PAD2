@@ -113,8 +113,7 @@ int GameEngine::turn() {
 
                     MinimalPath = AllPaths[iterator];
                  
-                    nextPos = MinimalPath[MinimalPath.size()-2];
-                    cout << nextPos.Spalte << " " << nextPos.Reihe;
+                    nextPos = MinimalPath[MinimalPath.size()-2];                                       
 
                     toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
                     toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
