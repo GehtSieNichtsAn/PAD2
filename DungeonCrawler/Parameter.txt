@@ -25,3 +25,4 @@ Character 5 1 & 1 1 ConsoleController
 Character 15 6 % 3 3 StationaryController
 Character 15 7 % 3 3 StationaryController
 Character 10 14 = 5 5 AttackController
+Character 17 10 = 5 5 AttackController

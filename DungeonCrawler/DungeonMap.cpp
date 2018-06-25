@@ -293,7 +293,7 @@ int DungeonMap::getHeight() {
     return m_height;
 }
 
-void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
+void DungeonMap::getKanten(set<Kanten>& Kanten, Position from, Position to) {
     
     Position self;
     self = from;
@@ -302,7 +302,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     
     //Reihe unter der Zelle
     if(i+1 < m_height) {
-        if(m_field[i+1][j]->canEnter() == true) {           
+        if(m_field[i+1][j]->canEnter() == true || (to.Spalte == i+1 && to.Reihe == j) || (from.Spalte == i+1 && from.Reihe == j)) {           
             self.Spalte += 1;
             DungeonMap::Kanten kante(self, from, false);            
             m_kanten.insert(kante);            
@@ -310,7 +310,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     }
     self = from;
     if(i+1 < m_width && j-1 >= 0) {
-        if(m_field[i+1][j-1]->canEnter() == true) {         
+        if(m_field[i+1][j-1]->canEnter() == true || (to.Spalte == i+1 && to.Reihe == j-1) || (from.Spalte == i+1 && from.Reihe == j-1)) {         
             self.Spalte += 1;
             self.Reihe -= 1;                    
             DungeonMap::Kanten kante(self, from, false);            
@@ -319,7 +319,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     }
     self = from;
     if(i+1 < m_width && j+1 < m_height) {
-        if(m_field[i+1][j+1]->canEnter() == true) {           
+        if(m_field[i+1][j+1]->canEnter() == true || (to.Spalte == i+1 && to.Reihe == j+1) || (from.Spalte == i+1 && from.Reihe == j+1)) {           
             self.Spalte += 1;
             self.Reihe += 1; 
             DungeonMap::Kanten kante(self, from, false);            
@@ -329,7 +329,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     self = from;      
     //Reihe Ã¼ber der Zelle
     if(i-1 >= 0) {
-        if(m_field[i-1][j]->canEnter() == true) {           
+        if(m_field[i-1][j]->canEnter() == true || (to.Spalte == i-1 && to.Reihe == j) || (from.Spalte == i-1 && from.Reihe == j)) {           
             self.Spalte -= 1; 
             DungeonMap::Kanten kante(self, from, false);          
             m_kanten.insert(kante);           
@@ -337,7 +337,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     }
     self = from;
     if(i-1 >= 0 && j-1 >= 0) {
-        if(m_field[i-1][j-1]->canEnter() == true) {            
+        if(m_field[i-1][j-1]->canEnter() == true || (to.Spalte == i-1 && to.Reihe == j-1) || (from.Spalte == i-1 && from.Reihe == j-1)) {            
             self.Spalte -= 1;
             self.Reihe -= 1; 
             DungeonMap::Kanten kante(self, from, false);            
@@ -346,7 +346,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     }
     self = from;
     if(i-1 >= 0 && j+1 < m_height) {
-        if(m_field[i-1][j+1]->canEnter() == true) {            
+        if(m_field[i-1][j+1]->canEnter() == true || (to.Spalte == i-1 && to.Reihe == j+1) || (from.Spalte == i-1 && from.Reihe == j+1)) {            
             self.Spalte -= 1;
             self.Reihe += 1; 
             DungeonMap::Kanten kante(self, from, false);
@@ -356,7 +356,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     self = from;   
     //Links und Rechts von Zelle
     if(j-1 >= 0) {
-        if(m_field[i][j-1]->canEnter() == true) {           
+        if(m_field[i][j-1]->canEnter() == true || (to.Spalte == i && to.Reihe == j-1) || (from.Spalte == i && from.Reihe == j-1)) {           
             self.Reihe -= 1;
             DungeonMap::Kanten kante(self, from, false);           
             m_kanten.insert(kante);           
@@ -364,7 +364,7 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
     }
     self = from;
     if(j+1 < m_width) {
-        if(m_field[i][j+1]->canEnter() == true) {           
+        if(m_field[i][j+1]->canEnter() == true || (to.Spalte == i && to.Reihe == j+1) || (from.Spalte == i && from.Reihe == j+1)) {           
             self.Reihe += 1;
             DungeonMap::Kanten kante(self, from, false);           
             m_kanten.insert(kante);            
@@ -376,13 +376,11 @@ void DungeonMap::getKanten(set<Kanten>& Kanten, Position from) {
 
 set<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
   
-    
-    
-    getKanten(m_kanten, from);
+    getKanten(m_kanten, from, to);
     for(int i = 0; i < m_width*m_height; i++) {     
         for(Kanten kante : m_kanten) {
             if(kante.m_visited == false) {                
-                getKanten(m_kanten, kante.m_self);
+                getKanten(m_kanten, kante.m_self, to);
                 kante.m_visited = true;                    
             } 
         }        

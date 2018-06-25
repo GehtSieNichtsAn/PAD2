@@ -83,10 +83,10 @@ Floor::~Floor() {
 
 void Floor::onLeave(Tile* toTile) {
 
-    if(toTile->getCharacter() == NULL && toTile->canEnter() == true) {
+    if(toTile->canEnter() == true) {
         toTile->onEnter(this->getCharacter());    
-        this->m_character = NULL;       
-    } else {
+        this->m_character = NULL;         
+    } else if(toTile->getCharacter() != NULL) {        
         toTile->onEnter(this->getCharacter());   
     }
     //fehler wtf kp
@@ -100,7 +100,11 @@ void Floor::onLeave(Tile* toTile) {
 }
 
 bool Floor::canEnter() {
-    return true;     
+    if (m_character == NULL) {
+        return true;
+    }
+
+    return false;    
 }
 
 

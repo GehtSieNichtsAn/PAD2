@@ -80,49 +80,61 @@ int GameEngine::turn() {
                     tmpSet = m_dng->getPathTo(fromPos, toPos);
                     if(tmpSet.empty() == false) {
                         AllPaths.push_back(tmpSet);
-                        m_dng->clearSets();
+                        m_dng->clearSets();                        
                     }
                 }                 
             }        
             
-            
-            //kleinste Distanz suchen
-            int min = AllPaths[0].size();
-            int iterator = 0;
-            
-            cout << "min" << min;
-            cout << "size" << AllPaths[0].size() << endl;
-            
-            for(auto path : AllPaths) {
-                cout << "Size2" << path.size() << endl;
-            }
+            if(AllPaths.empty() == false) {
             
             
-            for(int i = 0; i < AllPaths.size(); i++) {
-                if(AllPaths[i].size() == 0) {
-                    //AllPaths.erase(AllPaths.begin()+i);
-                    cout << "Hallo";
-                } else if(AllPaths[i].size() < min) {
-                    min = AllPaths[i].size();
-                    iterator = i;
+                //kleinste Distanz suchen
+                int min = AllPaths[0].size();
+                int iterator = 0;
+
+                cout << "min" << min;
+                cout << "size" << AllPaths[0].size() << endl;
+
+                for(auto path : AllPaths) {
+                    cout << "Size2" << path.size() << endl;
                 }
-            }     
+
+
+                for(int i = 0; i < AllPaths.size(); i++) {
+                    if(AllPaths[i].size() == 0) {
+                        //AllPaths.erase(AllPaths.begin()+i);
+                        cout << "Hallo";
+                    } else if(AllPaths[i].size() < min) {
+                        min = AllPaths[i].size();
+                        iterator = i;
+                    }
+                }     
+
+                MinimalPath = AllPaths[iterator];
+                cout << "iterator" << iterator;
+                //vorletzte Position ist nächste Position
+                set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
+                advance(iter, MinimalPath.size()-2);
+
+                nextPos = *iter;
+                //cout << nextPos.Spalte << " " << nextPos.Reihe;
+
+                toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
+                toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
+
+
+                Tile *toTile = m_dng->find(toPos);
+                fromTile->onLeave(toTile);
+
+                
             
-            MinimalPath = AllPaths[iterator];
-            cout << "iterator" << iterator;
-            //vorletzte Position ist nächste Position
-            set<DungeonMap::Position>::iterator iter = MinimalPath.begin();
-            advance(iter, MinimalPath.size()-2);
-            
-            nextPos = *iter;
-            //cout << nextPos.Spalte << " " << nextPos.Reihe;
-             
-            toPos.Spalte = fromPos.Spalte - (fromPos.Spalte - nextPos.Spalte);
-            toPos.Reihe = fromPos.Reihe - (fromPos.Reihe - nextPos.Reihe);
-            
-            
-            Tile *toTile = m_dng->find(toPos);
-            fromTile->onLeave(toTile);
+            } else {
+                
+//                toPos.Spalte = fromPos.Spalte;
+//                toPos.Reihe = fromPos.Reihe;
+                cout << "Test";
+                
+            }
             
             AllPaths.clear();
             
