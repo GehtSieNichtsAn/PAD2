@@ -82,6 +82,11 @@ void Trap::onEnter(Character* character) {
     m_kachelsymbol = 'T';       
 }
 
+bool Lever::canEnter() {
+    return true;
+}
+
+
 Portal::Portal() {
     m_kachelsymbol = 'O';   
 }

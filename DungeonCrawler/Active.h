@@ -49,7 +49,9 @@ public:
     
     Lever();
     void onEnter(Character* character) override;
+    bool canEnter() override;
 
+    
 };
 
 

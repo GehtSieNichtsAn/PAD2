@@ -336,12 +336,13 @@ void GameEngine::saveToFile() {
     string ControllerName;
 
     for(Character* spieler : m_spielfiguren) {
-              
+        
         pos = m_dng->find(spieler);
         
         vector<Item*> CharacterItems = spieler->getCharacterItems();
         for(Item* item : CharacterItems) {
-            ParameterSave << item->getname() << " " << pos.Spalte << " " << pos.Reihe << "\n";          
+            ParameterSave << item->getname() << " " << pos.Spalte << " " << pos.Reihe << "\n";
+            
         }
         
         ParameterSave << "Character " << pos.Spalte << " " << pos.Reihe << " " << spieler->getSymbol() << " " << spieler->getStrength() << " " << spieler->getStamina() << " ";

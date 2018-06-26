@@ -388,27 +388,27 @@ vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
     }
     
    
-//    vector<string> test;
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
-//    test.push_back("++++++++++++++++++++");
+    vector<string> test;
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
+    test.push_back("++++++++++++++++++++");
     
       
     bool loop = false;    
@@ -430,21 +430,23 @@ vector<DungeonMap::Position> DungeonMap::getPathTo(Position from, Position to) {
         }
         
         if(cnt == 0) {
-            cout << "Spieler kann nicht erreicht werden!" << endl;
+            //cout << "Spieler kann nicht erreicht werden!" << endl;
             loop = true;
         }
         
     }while(loop != true); 
 
     
-//    for(auto el : m_path) {
-//        test[el.Spalte][el.Reihe] = '#';        
-//    }    
-//    
-//    for(auto el : test) {
-//        cout << el << endl;
-//    }
-      
+    if(m_path.empty() == false) {
+    
+        for(auto el : m_path) {
+            test[el.Spalte][el.Reihe] = '#';        
+        }    
+
+        for(auto el : test) {
+            cout << el << endl;
+        }
+    }  
     
     return m_path; 
 }
