@@ -1,3 +1,3 @@
-# PAD2
+# Programmieren, Algorithmen, Datenstrukturen 2 
 
-Hallo Welt!
+Fortlaufendes Projekt aus Praktika (Semester 2)
